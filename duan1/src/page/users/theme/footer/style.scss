@@ -1,0 +1,68 @@
+.footer_contact {
+    padding: 10px 0 13px;
+    
+    h1 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 8px; // Khoảng cách giữa icon và văn bản
+            margin-bottom: 5px; // Tạo khoảng cách giữa các mục
+
+            a {
+                font-size: 16px;
+                color: black;
+                text-decoration: none;
+                display: flex; // Đảm bảo icon nằm trên cùng một hàng
+                align-items: center;
+                
+                &:hover {
+                    color: #007bff; // Đổi màu khi hover
+                }
+            }
+
+            span {
+                font-size: 14px;
+                color: #333;
+            }
+        }
+
+        li:last-child {
+            cursor: pointer;
+        }
+    }
+}
+
+.footer_about {
+    padding: 10px 0 13px;
+    
+    h1 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px; // Khoảng cách giữa các dòng
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+.footer{
+    background: #dedfe079;
+}
