@@ -89,7 +89,7 @@ const HomePage = () => {
       toast.error("Thêm vào giỏ hàng thất bại");
     }
   };
-
+ 
   const deleteProduct = async (productId) => {
     try {
       const respone = await axios.delete(`http://localhost:7000/api/delete/product/${productId}`);
@@ -136,6 +136,7 @@ const HomePage = () => {
                 className="product-image"
               />
               <h3 className="product-name">{product.name}</h3>
+              <p className="product-price">{product.category}</p>
               <p className="product-price">{product.price} VND</p>
 
               {role === "user" && (

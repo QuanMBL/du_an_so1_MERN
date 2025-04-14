@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./CartPage.scss";
+import { FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
+
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -18,11 +21,34 @@ const CartPage = () => {
   }, []);
 
   const totalPrice = cartItems.reduce((total, item) => {
-    const price = parseFloat(item?.productId?.price.replace(/\./g, '')) || 0;
+    const price = parseFloat(item?.productId?.price.replace(/\./g, "")) || 0;
     const quantity = parseInt(item?.quantity || 0);
     return total + price * quantity;
   }, 0);
 
+  const deleteProduct = async (productId) => {
+    try {
+      const response = await axios.delete(`http://localhost:7000/api/delete/cart/${productId}`);
+      setCartItems((prevProduct) =>
+        prevProduct.filter((p) => p._id !== productId)
+      );
+      toast.success(response.data.message, { position: "top-right" });
+    } catch (e) {
+      console.log("❌ Lỗi khi xóa sản phẩm:", e);
+      toast.error("Không thể xóa sản phẩm", { position: "top-right" });
+    }
+  };
+
+  const pay = async()=>{
+    try {
+      // đầu tiên khi ấn sẽ lưu vào dạng pay model 
+      // sau đó xóa hết 
+
+      
+    } catch (error) {
+      
+    }
+  }
   return (
     <div className="cart-page">
       <h2>🛒 Giỏ hàng của bạn</h2>
@@ -32,23 +58,40 @@ const CartPage = () => {
         <>
           <div className="cart-list">
             {cartItems.map((item) => {
-              const price = parseFloat(item.productId.price.replace(/\./g, '')) || 0;
+              const price =
+                parseFloat(item.productId.price.replace(/\./g, "")) || 0;
               const quantity = parseInt(item.quantity || 0);
               const total = price * quantity;
 
               return (
                 <div className="cart-item" key={item._id}>
-                  <img src={`/${item.productId.image}`} alt={item.productId.name} />
+                  <img
+                    src={`/${item.productId.image}`}
+                    alt={item.productId.name}
+                  />
                   <div className="info">
                     <h4>{item.productId.name}</h4>
-                    <p><strong>Số lượng:</strong> {quantity}</p>
-                    <p><strong>Giá:</strong> {price.toLocaleString("vi-VN")}₫</p>
-                    <p><strong>Thành tiền:</strong> {total.toLocaleString("vi-VN")}₫</p>
+                    <p>
+                      <strong>Số lượng:</strong> {quantity}
+                    </p>
+                    <p>
+                      <strong>Giá:</strong> {price.toLocaleString("vi-VN")}₫
+                    </p>
+                    <p>
+                      <strong>Thành tiền:</strong>{" "}
+                      {total.toLocaleString("vi-VN")}₫
+                    </p>
                     <p>
                       <strong>Ngày thêm:</strong>{" "}
                       {new Date(item.createdAt).toLocaleDateString("vi-VN")}
                     </p>
                   </div>
+                  <button
+                    onClick={() => deleteProduct(item._id)}
+                    className="delete-btn"
+                  >
+                    <FaTrash />
+                  </button>
                 </div>
               );
             })}

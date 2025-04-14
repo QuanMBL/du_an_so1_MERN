@@ -7,8 +7,9 @@ import toast from 'react-hot-toast'
 export const AddProduct = () => {
     const users ={
         name: "",
-        email: "",
-        address: ""
+        category: "",
+        image:"",
+        price: ""
     }
     const [user,setUser] = useState(users)
     const navigate = useNavigate();
@@ -43,8 +44,15 @@ export const AddProduct = () => {
                 <h2>Thêm Sản Phẩm</h2>
                 <input
                     type="text"
-                    name="username"
+                    name="name"
                     placeholder="name"
+                    onChange={inputHandler}
+                    required
+                />
+                <input
+                    type="text"
+                    name="category"
+                    placeholder="category"
                     onChange={inputHandler}
                     required
                 />

@@ -34,6 +34,40 @@
       border: 1px solid #eee;
       border-radius: 10px;
       transition: all 0.2s ease;
+      button {
+        background: #ffffff00; // trắng mờ nhẹ
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%; // hình tròn hoàn toàn
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: background 0.3s ease, transform 0.2s ease;
+    
+        svg {
+          font-size: 19px;
+          color: #333;
+        }
+    
+        &:hover {
+          transform: scale(1.1);
+        }
+    
+        &.edit-btn svg {
+          color: #007bff;
+        }
+    
+        &.delete-btn svg {
+          color: #dc3545;
+        }
+    
+        &.add-btn svg {
+          color: #28a745;
+        }
+      }
   
       &:hover {
         background-color: #f9f9f9;

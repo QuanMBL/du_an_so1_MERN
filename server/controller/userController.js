@@ -1,12 +1,12 @@
 import Product from "../model/ProductModel.js";
-import Role from "../model/LogninModel.js";
+import User from "../model/LogninModel.js";
 import CartItem from "../model/CartItem.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 // Tạo sản phẩm mới
 export const createProduct = async (req, res) => {
   try {
-    const { name, image, price } = req.body;
+    const { name,category, image, price } = req.body;
 
     // Nếu không có ảnh, gán ảnh mặc định
     const productImage = image ? `${image}` : "assets/users/images/default.jpg";
@@ -17,13 +17,54 @@ export const createProduct = async (req, res) => {
     }
 
     // Tạo sản phẩm mới
-    const newProduct = new Product({ name, image: productImage, price });
+    const newProduct = new Product({ name,category, image: productImage, price });
     const saveData = await newProduct.save();
     res.status(201).json(saveData);
   } catch (error) {
     res.status(500).json({ errorMessage: error.message });
   }
 };
+
+export const ProductController = {
+  // Tìm kiếm theo tên sản phẩm
+  searchProductByName: async (req, res) => {
+    try {
+      const keyword = req.query.name;
+      if (!keyword) {
+        return res.status(400).json({ message: "Thiếu từ khóa tìm kiếm" });
+      }
+
+      // Tìm theo tên chứa từ khóa, không phân biệt hoa thường
+      const products = await Product.find({
+        name: { $regex: keyword, $options: "i" }
+      });
+
+      res.json(products);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Lỗi server khi tìm kiếm sản phẩm" });
+    }
+  },
+};
+
+// Lấy sản phẩm theo tên loại
+export const getProductsByCategory = async (req, res) => {
+  try {
+    const { name } = req.params;
+
+    // Tìm sản phẩm theo category
+    const products = await Product.find({ category: name });
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({ message: "Không có sản phẩm nào thuộc loại này." });
+    }
+
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ errorMessage: error.message });
+  }
+};
+
 
 // Lấy tất cả sản phẩm
 export const getAll = async (req, res) => {
@@ -78,12 +119,12 @@ export const getProductById = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, image, price } = req.body;
+    const { name, category, image, price } = req.body;
     const productImage = image ? `${image}` : "assets/users/images/default.jpg";
 
     const updated = await Product.findByIdAndUpdate(
       id,
-      { name, image: productImage, price },
+      { name, category, image: productImage, price },
       { new: true }
     );
 
@@ -150,7 +191,7 @@ export const signup = async (req, res) => {
   const { username, password, role } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   try {
-    const newUser = new Role({ username, password: hashedPassword, role });
+    const newUser = new User({ username, password: hashedPassword, role });
     await newUser.save();
     res.status(201).json({ message: "User registered successfully!" });
   } catch (err) {
@@ -162,7 +203,7 @@ export const login = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const user = await Role.findOne({ username });
+    const user = await User.findOne({ username });
     if (!user) {
       return res.status(400).json({ message: "Tài khoản không tồn tại" });
     }
@@ -189,7 +230,7 @@ export const login = async (req, res) => {
 
 export const getAllUser = async (req, res) => {
   try {
-    const roles = await Role.find();
+    const roles = await User.find();
     if (!roles || roles.length === 0) {
       return res.status(404).json({ message: "No roles found." });
     }
@@ -257,6 +298,7 @@ export const deleteCart = async (req, res) => {
     res.status(500).json({ message: "Lỗi server khi xóa mục giỏ hàng" });
   }
 };
+
 
 export const deleteCartAll = async (req, res) => {
   try {

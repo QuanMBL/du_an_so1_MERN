@@ -1,7 +1,7 @@
 
 // Trang route này thể hiện cho đường dẫn 
 import express from "express";
-import { createProduct, deleteProduct, getAll, getProductById, updateProduct,login,getAllUser,signup, addCart, getCart ,deleteCartAll} from "../controller/userController.js";
+import { createProduct, deleteProduct, getAll, getProductById, updateProduct,login,getAllUser,signup, addCart, getCart ,deleteCartAll, deleteCart,getProductsByCategory,ProductController} from "../controller/userController.js";
 
 
 const route = express.Router();
@@ -11,8 +11,8 @@ route.get("/products",getAll)
 route.get("/product/:id",getProductById)
 route.put("/update/product/:id",updateProduct)
 route.delete("/delete/product/:id", deleteProduct)
-
-
+route.get("/products/category/:name", getProductsByCategory);
+route.get("/products/search", ProductController.searchProductByName);
 // chưa hoàn thiện
 route.post("/login",login)
 route.post("/signup",signup)
@@ -23,6 +23,7 @@ route.get("/users",getAllUser)
 ///
 route.post("/addcart",addCart);
 route.get("/carts",getCart)
+route.delete("/delete/cart/:id",deleteCart)
 route.delete("/delete/carts", deleteCartAll)
 
 /* 

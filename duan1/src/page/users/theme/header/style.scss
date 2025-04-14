@@ -146,6 +146,12 @@
 
 .header_logo{
     padding: 15px 0;
+    a{
+        text-decoration: none;
+        h1{
+            color: black;
+        }
+    }
 }
 
 .header_menu {
@@ -259,7 +265,7 @@
             }
         }
     }
-}
+} 
 .search_container{
     padding-left: 15px;
 }
@@ -299,3 +305,30 @@
         }
     }
 }
+.promo-banner {
+    height: 200px;
+    width: 750px;
+    margin: 30px;
+    padding: 20px;
+    background-color: #ffeeba;
+    color: #856404;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(255, 222, 89, 0.3);
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    background-image: url("/assets/users/images/image.png"); /* Đặt ảnh của bạn */
+    background-size: cover; 
+    background-position: center;
+  
+    position: relative;
+    color: white; /* Màu chữ sáng nếu cần */
+  }
+  
+  
+  

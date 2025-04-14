@@ -23,6 +23,9 @@ export const ROUTERS ={
     CART: {
         CARTURL:"/cart",
         PROFILE: "cart"
+    },
+    CATEGORY:{
+        CATE: "/category/:name"
     }
 }
 

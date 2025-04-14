@@ -8,6 +8,7 @@ const EditProduct = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState({
     name: "",
+    category:"",
     image: "",
     price: "",
   });
@@ -17,7 +18,7 @@ const EditProduct = () => {
       .then(res => setProduct(res.data))
       .catch(err => console.log(err));
   }, [id]);
-
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct(prev => ({ ...prev, [name]: value }));
@@ -39,6 +40,7 @@ const EditProduct = () => {
         <h2>Update Product</h2>
         <form onSubmit={handleSubmit} className="edit-product__form">
           <input type="text" name="name" value={product.name} onChange={handleChange} placeholder="Product Name" required />
+          <input type="text" name="category" value={product.category} onChange={handleChange} placeholder="Category" required />
           <input type="text" name="image" value={product.image} onChange={handleChange} placeholder="Image path (e.g., hp/anh1.png)" required />
           <input type="text" name="price" value={product.price} onChange={handleChange} placeholder="Price" required />
           <button type="submit">Update</button>
